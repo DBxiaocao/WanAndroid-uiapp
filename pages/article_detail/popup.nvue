@@ -1,0 +1,61 @@
+<template>
+	<view @click="close" class="mask">
+		<view @click.stop="onClick" class="content">
+			<text class="text">点击蒙层关闭</text>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+
+			}
+		},
+		methods: {
+			onClick(e) {
+				uni.showToast({
+					title: "点击蒙层关闭"
+				})
+				// #ifdef APP-NVUE
+				e.stopPropagation()
+				// #endif
+			},
+			close() {
+				uni.navigateBack()
+			}
+		}
+	}
+</script>
+
+<style>
+	.mask {
+		position: fixed;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		justify-content: center;
+		align-items: center;
+		background-color: rgba(0, 0, 0, 0.4);
+	}
+
+	.content {
+		width: 200px;
+		height: 200px;
+		background-color: #007AFF;
+	}
+
+	.text {
+		/* #ifndef APP-NVUE */
+		display: block;
+		/* #endif */
+		line-height: 200px;
+		text-align: center;
+		color: #FFFFFF;
+	}
+</style>

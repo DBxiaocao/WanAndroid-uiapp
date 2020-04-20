@@ -1,0 +1,40 @@
+
+.app-main {
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+}
+.user-head-image {
+	width: 100%;
+	height: 400rpx;
+}
+.user-name {
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	        flex-direction: row;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+}
+.app-main view {
+	padding: 20rpx;
+	background-color: #ffffff;
+	margin-top: 10rpx;
+	font-size: 30rpx;
+}
+.btn-login {
+	/* visibility: hidden; */
+	display: none;
+}
+

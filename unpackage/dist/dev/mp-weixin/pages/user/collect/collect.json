@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "收藏列表",
+  "usingComponents": {
+    "article-item": "/pages/home/article_item"
+  }
+}

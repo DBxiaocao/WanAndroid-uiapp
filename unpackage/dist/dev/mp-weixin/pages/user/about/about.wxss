@@ -1,0 +1,45 @@
+
+.about-head {
+	background-color: #fe715e;
+	width: 100%;
+	height: 300rpx;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	        flex: 1;
+}
+.app-name {
+	color: #ffffff;
+	font-size: 30rpx;
+}
+.app-version {
+	color: #ffffff;
+	margin-top: 20rpx;
+	font-size: 28rpx;
+}
+.about-help {
+	margin: 20rpx;
+	font-size: 30rpx;
+}
+.about-help-title {
+	font-size: 38rpx;
+	font-weight: bold;
+}
+.about-content-1 {
+	text-indent: 2em;
+	font-size: 28rpx;
+	margin-top: 5rpx;
+}
+

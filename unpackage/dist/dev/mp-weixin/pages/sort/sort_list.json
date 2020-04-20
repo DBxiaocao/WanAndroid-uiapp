@@ -1,0 +1,6 @@
+{
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "article-item": "/pages/home/article_item"
+  }
+}

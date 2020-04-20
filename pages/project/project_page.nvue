@@ -1,0 +1,290 @@
+<template>
+		<view class="tabs">
+			<!-- <uni-nav-bar :statusBar="true" :fixed="true" :shadow="false" title="项目" rightText="搜索" /> -->
+			<scroll-view class="tab-bar" :scroll-x="true" :show-scrollbar="false" :scroll-into-view="scrollInto">
+				<view class="tab-item" v-for="(tab, index) in tabBars" :id="'tab_' + tab.id" :key="tab.id" :data-current="index" @click="mSelectedTab">
+					<text class="tab-item-title" :class="[mSelectedIndex == index ? 'title-active' : '']">{{ tab.name }}</text>
+				</view>
+			</scroll-view>
+			<swiper :current="mSelectedIndex" class="swiper" @change="mTabPageSwipe">
+				<swiper-item class="swiper-item" v-for="(tab, index1) in newsList" :key="index1">
+					<!-- #ifdef APP-NVUE -->
+					<list class="swipe-list-item" enableBackToTop="true" loadmoreoffset="15" @loadmore="loadMore(index1)">
+						<refresh class="refresh" @refresh="onrefresh(index1)" @pullingdown="onpullingdown" :display="tab.refreshing ? 'show' : 'hide'">
+							<div class="refresh-view">
+								<image
+									class="refresh-icon"
+									:src="refreshIcon"
+									:style="{ width: tab.refreshing || pulling ? 0 : '30px' }"
+									:class="{ 'refresh-icon-active': tab.refreshFlag }"
+								></image>
+								<loading-indicator class="loading-icon" animating="true" v-if="tab.refreshing"></loading-indicator>
+								<text class="refresh-text">{{ tab.refreshText }}</text>
+							</div>
+						</refresh>
+
+						<cell v-for="(item, index2) in tab.data" :key="item.id" @click="jumpUrl(item.link)">
+							<tabitem :data="item" @clickCollect="updateCollect(item)"></tabitem>
+							</cell>
+						<cell class="loading-more" v-if="tab.isLoading || tab.data.length > 4">
+							<text class="loading-more-text">{{ tab.loadingText }}</text>
+						</cell>
+					</list>
+					<!-- #endif -->
+					<!-- #ifndef APP-NVUE -->
+					<scroll-view class="swipe-list-item" scroll-y enableBackToTop="true" loadmoreoffset="15" @scrolltolower="loadMore(index1)">
+						<view v-for="(item, index2) in tab.data" :key="item.id" @click="jumpUrl(item.link)">
+							<tabitem :data="item" @clickCollect="updateCollect(item)"></tabitem>
+							</view>
+						<view class="loading-more" v-if="tab.isLoading || tab.data.length > 4">
+							<text class="loading-more-text">{{ tab.loadingText }}</text>
+						</view>
+					</scroll-view>
+					<!-- #endif -->
+				</swiper-item>
+			</swiper>
+		</view>
+</template>
+
+<script>
+import tabitem from './project_page_item.vue';
+import uniNavBar from '@/common/uni-nav-bar/uni-nav-bar.vue';
+var _mData;
+export default {
+	data() {
+		return {
+			tabBars: [],
+			mItems: [],
+			scrollInto: '',
+			newsList: [],
+			mSelectedIndex: 0,
+			mSelectedId: 0,
+			pulling: false,
+			refreshIcon:
+				'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAB5QTFRFcHBw3Nzct7e39vb2ycnJioqK7e3tpqam29vb////D8oK7wAAAAp0Uk5T////////////ALLMLM8AAABxSURBVHja7JVBDoAgDASrjqj//7CJBi90iyYeOHTPMwmFZrHjYyyFYYUy1bwUZqtJIYVxhf1a6u0R7iUvWsCcrEtwJHp8MwMdvh2amHduiZD3rpWId9+BgPd7Cc2LIkPyqvlQvKxKBJ//Qwq/CacAAwDUv0a0YuKhzgAAAABJRU5ErkJggg=='
+		};
+	},
+	components: {
+		tabitem,
+		uniNavBar
+	},
+	onLoad() {
+		this._mData = this;
+		this.getTabBars();
+	},
+	methods: {
+		getTabBars() {
+			uni.request({
+				url: 'https://www.wanandroid.com/project/tree/json',
+				success: res => {
+					this.tabBars = res.data.data;
+					this.mSelectedId = this.tabBars[0].id;
+				},
+				complete: e => {
+					console.log(e);
+					setTimeout(() => {
+						this.tabBars.forEach(tabBar => {
+							this.newsList.push({
+								data: [],
+								isLoading: false,
+								pageSize: 0,
+								refreshText: '',
+								loadingText: '加载更多...',
+								refreshing: false
+							});
+						});
+						console.log(this.newsList);
+						this.getItems();
+					}, 350);
+				}
+			});
+		},
+		getItems() {
+			let activeTab = this.newsList[this.mSelectedIndex];
+			let list = [];
+			console.log(this.mSelectedId);
+			uni.request({
+				url: 'https://www.wanandroid.com/article/list/' + activeTab.pageSize + '/json?cid=' + this.mSelectedId,
+				success: res => {
+					console.log(res);
+					list = res.data.data.datas;
+					if (activeTab.refreshing) {
+						activeTab.refreshing = false;
+					}
+					if (activeTab.pageSize == 0) {
+						activeTab.data = list;
+					} else {
+						activeTab.data = activeTab.data.concat(list);
+					}
+					activeTab.pageSize = res.data.data.curPage;
+					console.log(this.newsList);
+				},
+				fail: e => {
+					console.error(e);
+				}
+			});
+		},
+		mSelectedTab: function(e) {
+			let index = e.target.dataset.current || e.currentTarget.dataset.current;
+			console.log(index);
+			//滑动view切换
+			if (this.mSelectedIndex == index) {
+				return;
+			}
+			this.mSelectedIndex = index;
+			this.scrollInto = 'tab_' + this.tabBars[index].id;
+			this.mSelectedId = this.tabBars[index].id;
+			this.getItems();
+		},
+		mTabPageSwipe: function(e) {
+			let index = e.target.current || e.detail.current;
+			console.log(index);
+			//滑动view切换
+			if (this.mSelectedIndex == index) {
+				return;
+			}
+			this.mSelectedIndex = index;
+			this.scrollInto = 'tab_' + this.tabBars[index].id;
+			this.mSelectedId = this.tabBars[index].id;
+			this.getItems();
+		},
+		loadMore(e) {
+			setTimeout(() => {
+				this.getItems();
+			}, 500);
+		},
+		onrefresh(e) {
+			setTimeout(() => {
+				let activeTab = this.newsList[this.mSelectedIndex];
+				activeTab.pageSize = 0;
+				this.pulling = true;
+				activeTab.refreshing = true;
+				setTimeout(() => {
+					this.pulling = false;
+				}, 500);
+				this.getItems();
+			}, 500);
+		},
+		onpullingdown(e) {
+			console.error(e);
+			var tab = this.newsList[this.tabIndex];
+			if (tab.refreshing || this.pulling) {
+				return;
+			}
+			if (Math.abs(e.pullingDistance) > Math.abs(e.viewHeight)) {
+				tab.refreshText = '释放立即刷新';
+			} else {
+				tab.refreshText = '下拉可以刷新';
+			}
+		},
+		jumpUrl(url) {
+			uni.navigateTo({
+				url: '../article_detail/article_detail?url=' + url,
+				animationType: 'slide-in-bottom'
+			});
+		},
+		updateCollect(res){
+			uni.request({
+				url:"https://www.wanandroid.com/lg/collect/"+res.id+"/json",
+				method:'GET',
+				success() {
+					res.collect=!res.collect
+				}
+			})
+		}
+	}
+};
+</script>
+
+<style>
+body {
+	height: 100%;
+}
+.title-active {
+	color: #fe715e;
+}
+
+.tabs {
+	height: 100%;
+	flex: 1;
+	flex-direction: column;
+	overflow: hidden;
+	background-color: #ffffff;
+}
+
+.tab-bar {
+	width: 750upx;
+	height: anto;
+	flex-direction: row;
+	/* #ifndef APP-PLUS */
+	white-space: nowrap;
+	/* #endif */
+}
+.tab-item {
+	display: inline-block;
+	flex-wrap: nowrap;
+	padding-left: 34upx;
+	padding-right: 34upx;
+}
+.tab-item-title {
+	font-size: 30upx;
+	height: 80upx;
+	line-height: 80upx;
+	flex-wrap: nowrap;
+}
+.swiper {
+	flex: 1;
+}
+.swiper-item {
+	flex: 1;
+	flex-direction: row;
+}
+.swipe-list-item {
+	flex: 1;
+	/* #ifndef MP-ALIPAY */
+	flex-direction: column;
+	/* #endif */
+	width: 100%;
+}
+.refresh {
+	width: 750upx;
+	height: 64px;
+	justify-content: center;
+}
+.refresh-view {
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: center;
+}
+.refresh-icon {
+	width: 30px;
+	height: 30px;
+	transition-duration: 0.5s;
+	transition-property: transform;
+	transform: rotate(0deg);
+	transform-origin: 15px 15px;
+}
+.loading-icon {
+	width: 20px;
+	height: 20px;
+	margin-right: 5px;
+	color: #999999;
+}
+.refresh-text {
+	margin-left: 2px;
+	font-size: 16px;
+	color: #999999;
+}
+.loading-more {
+	align-items: center;
+	justify-content: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-align: center;
+}
+.loading-more-text {
+	font-size: 28rpx;
+	color: #999;
+}
+</style>

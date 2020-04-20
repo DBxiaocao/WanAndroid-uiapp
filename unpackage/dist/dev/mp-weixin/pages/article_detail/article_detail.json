@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "uni-fab": "/common/uni-fab/uni-fab",
+    "uni-nav-bar": "/common/uni-nav-bar/uni-nav-bar",
+    "uni-popup": "/common/uni-popup/uni-popup"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "项目",
+  "usingComponents": {
+    "tabitem": "/pages/project/project_page_item",
+    "uni-nav-bar": "/common/uni-nav-bar/uni-nav-bar"
+  }
+}

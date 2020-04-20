@@ -1,0 +1,1 @@
+<view data-event-opts="{{[['tap',[['close',['$event']]]]]}}" class="mask" bindtap="__e"><view data-event-opts="{{[['tap',[['onClick',['$event']]]]]}}" class="content" catchtap="__e"><text class="text">点击蒙层关闭</text></view></view>

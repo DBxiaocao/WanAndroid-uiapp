@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "首页",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "article-item": "/pages/home/article_item",
+    "uni-nav-bar": "/common/uni-nav-bar/uni-nav-bar"
+  }
+}

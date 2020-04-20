@@ -1,0 +1,121 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/home/home_page",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"color": "#DD524D"
+					}
+				}
+			}
+		}, {
+			"path": "pages/project/project_page",
+			"style": {
+				"navigationBarTitleText": "项目"
+			}
+		}, {
+			"path": "pages/sort/sort_page",
+			"style": {
+				"navigationBarTitleText": "分类"
+			}
+		}, {
+			"path": "pages/user/user_page",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		}, {
+			"path": "pages/article_detail/article_detail",
+			"style": {
+
+			}
+		}, {
+			"path": "pages/project/project_page_item",
+			"style": {}
+		}, {
+			"path": "pages/sort/sort_list",
+			"style": {
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"pullToRefresh": {
+						"support": true,
+						"color": "#DD524D"
+					}
+				}
+			}
+		}, {
+			"path": "pages/home/article_item",
+			"style": {}
+		}, {
+			"path": "pages/user/about/about",
+			"style": {
+				"navigationBarTitleText": "关于我们"
+			}
+		}, {
+			"path": "pages/user/collect/collect",
+			"style": {
+				"navigationBarTitleText": "收藏列表"
+			}
+		}, {
+			"path": "pages/user/login/login",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		}, {
+			"path": "pages/user/register/register",
+			"style": {
+				"navigationBarTitleText": "注册"
+			}
+		}, {
+			"path": "pages/article_detail/popup",
+			"navigationStyle": "custom",
+			"app-plus": {
+				"animationType": "fade-in",
+				"background": "transparent",
+				"backgroundColor": "rgba(0,0,0,0)",
+				"popGesture": "none"
+			}
+		}
+
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#FE715E",
+		"borderStyle": "black",
+		"backgroundColor": "#FFFFFF",
+		"list": [{
+				"pagePath": "pages/home/home_page",
+				"iconPath": "static/icon_home.png",
+				"selectedIconPath": "static/icon_home_s.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/project/project_page",
+				"iconPath": "static/icon_project.png",
+				"selectedIconPath": "static/icon_project_s.png",
+				"text": "项目"
+			},
+			{
+				"pagePath": "pages/sort/sort_page",
+				"iconPath": "static/icon_sort.png",
+				"selectedIconPath": "static/icon_sort_s.png",
+				"text": "分类"
+			},
+			{
+				"pagePath": "pages/user/user_page",
+				"iconPath": "./static/icon_user.png",
+				"selectedIconPath": "./static/icon_user_s.png",
+				"text": "我的"
+			}
+		]
+	}
+}
