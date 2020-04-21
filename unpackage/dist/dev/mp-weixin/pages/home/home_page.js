@@ -256,7 +256,7 @@ var uniNavBar = function uniNavBar() {__webpack_require__.e(/*! require.ensure |
         if (res.collect) {
           uni.request({
             url: 'https://www.wanandroid.com/lg/uncollect_originId/' + res.id + '/json',
-            method: 'GET',
+            method: 'POST',
             success: function success() {
               res.collect = !res.collect;
             } });
@@ -264,7 +264,7 @@ var uniNavBar = function uniNavBar() {__webpack_require__.e(/*! require.ensure |
         } else {
           uni.request({
             url: 'https://www.wanandroid.com/lg/collect/' + res.id + '/json',
-            method: 'GET',
+            method: 'POST',
             success: function success() {
               res.collect = !res.collect;
             } });

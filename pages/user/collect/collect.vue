@@ -28,7 +28,7 @@
 		methods: {
 			getItems() {
 				uni.request({
-					url: "https://www.wanandroid.com/lg/collect/list" + _this.page + "/json",
+					url: "https://www.wanandroid.com/lg/collect/list/" + _this.page + "/json",
 					success: (res) => {
 						if (_this.page == 0) {
 							_this.mItems = res.data.data.datas

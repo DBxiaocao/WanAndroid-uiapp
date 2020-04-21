@@ -38,7 +38,7 @@ var _this;var _default = { data: function data() {return { mItems: [], page: 0, 
   methods: {
     getItems: function getItems() {
       uni.request({
-        url: "https://www.wanandroid.com/lg/collect/list" + _this.page + "/json",
+        url: "https://www.wanandroid.com/lg/collect/list/" + _this.page + "/json",
         success: function success(res) {
           if (_this.page == 0) {
             _this.mItems = res.data.data.datas;

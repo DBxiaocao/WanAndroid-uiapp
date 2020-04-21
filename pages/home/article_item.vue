@@ -7,7 +7,7 @@
 				<image class="image-collect" @click.stop="changeCollect()" :class="[item.collect?'image':'']" src="../../static/icon_collect.png"></image>
 			</view>
 			<view class="list-item-info">
-				<text class="list-item-sort">{{item.superChapterName}}</text>
+				<text class="list-item-sort">{{item.chapterName}}</text>
 				<text>{{item.author?item.author:''}}</text>
 				<text>{{item.niceDate}}</text>
 			</view>
