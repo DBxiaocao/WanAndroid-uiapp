@@ -68,7 +68,7 @@
 					if (res.collect) {
 						uni.request({
 							url: 'https://www.wanandroid.com/lg/uncollect_originId/' + res.id + '/json',
-							method: 'GET',
+							method: 'POST',
 							success() {
 								res.collect = !res.collect;
 							}
@@ -76,7 +76,7 @@
 					} else {
 						uni.request({
 							url: 'https://www.wanandroid.com/lg/collect/' + res.id + '/json',
-							method: 'GET',
+							method: 'POST',
 							success() {
 								res.collect = !res.collect;
 							}

@@ -383,7 +383,7 @@ var _this;var _default = { data: function data() {return { mItems: [], page: 0, 
         if (res.collect) {
           uni.request({
             url: 'https://www.wanandroid.com/lg/uncollect_originId/' + res.id + '/json',
-            method: 'GET',
+            method: 'POST',
             success: function success() {
               res.collect = !res.collect;
             } });
@@ -391,7 +391,7 @@ var _this;var _default = { data: function data() {return { mItems: [], page: 0, 
         } else {
           uni.request({
             url: 'https://www.wanandroid.com/lg/collect/' + res.id + '/json',
-            method: 'GET',
+            method: 'POST',
             success: function success() {
               res.collect = !res.collect;
             } });
