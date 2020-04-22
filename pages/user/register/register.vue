@@ -16,6 +16,7 @@
 </template>
 
 <script>
+	var mThis;
 	export default {
 		data() {
 			return {
@@ -43,42 +44,46 @@
 					this.showMessage("两次密码不相同，请重新输入")
 					return
 				}
-				uni.request({
-					url:'https://www.wanandroid.com/user/register',
-					method:'POST',
-					header:{
-						'Content-Type':'application/x-www-form-urlencoded'
-					},
-					dataType:"json",
-					data:{
-						username:this.username,
-						password:this.password,
-						repassword:this.repassword
-					},
-					success: (res) => {
-						if(res.data.errorCode==-1){
-							this.showMessage(res.data.errorMsg)
-						}else{
-							uni.showModal({
-								title:'系统提示',
-								content:'注册成功，是否立即登录？',
-								success: (dialog) => {
-									if(dialog.confirm){
-										this.jumpUrl()
-										// uni.setStorage({
-										// 	key:'user_login',
-										// 	data:JSON.stringify(res.data.data)
-										// })
-									}else if(dialog.cancel){
-										this.showMessage("那就下次登录吧！")
-									}
+				uni.showLoading({
+					complete() {
+						uni.request({
+							url:'https://www.wanandroid.com/user/register',
+							method:'POST',
+							header:{
+								'Content-Type':'application/x-www-form-urlencoded'
+							},
+							dataType:"json",
+							data:{
+								username:mThis.username,
+								password:mThis.password,
+								repassword:mThis.repassword
+							},
+							success: (res) => {
+								if(res.data.errorCode==-1){
+									mThis.showMessage(res.data.errorMsg)
+								}else{
+									uni.showModal({
+										title:'系统提示',
+										content:'注册成功，是否立即登录？',
+										success: (dialog) => {
+											if(dialog.confirm){
+												mThis.jumpUrl()
+												// uni.setStorage({
+												// 	key:'user_login',
+												// 	data:JSON.stringify(res.data.data)
+												// })
+											}else if(dialog.cancel){
+												mThis.showMessage("那就下次登录吧！")
+											}
+										}
+									})
 								}
-							})
-						}
-						console.log(res)
-					},
-					fail: (error) => {
-						this.showMessage(error.errMsg)
+								console.log(res)
+							},
+							fail: (error) => {
+								mThis.showMessage(error.errMsg)
+							}
+						})
 					}
 				})
 			},
@@ -89,6 +94,9 @@
 					icon:'none'
 				})
 			}
+		},
+		onLoad() {
+			mThis=this;
 		}
 	}
 </script>
@@ -104,6 +112,7 @@
 	height: 48upx;
 	padding: 20upx;
 	background-color: #FFFFFF;
+	border-radius: 10upx;
 }
 .view-register{
 	flex-direction: row;

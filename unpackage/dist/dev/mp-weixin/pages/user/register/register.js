@@ -148,7 +148,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-var _default =
+
+var mThis;var _default =
 {
   data: function data() {
     return {
@@ -163,7 +164,7 @@ var _default =
         delta: 1 });
 
     },
-    register: function register() {var _this = this;
+    register: function register() {
       if (this.username.length == 0) {
         this.showMessage("请输入用户名");
         return;
@@ -176,42 +177,46 @@ var _default =
         this.showMessage("两次密码不相同，请重新输入");
         return;
       }
-      uni.request({
-        url: 'https://www.wanandroid.com/user/register',
-        method: 'POST',
-        header: {
-          'Content-Type': 'application/x-www-form-urlencoded' },
+      uni.showLoading({
+        complete: function complete() {
+          uni.request({
+            url: 'https://www.wanandroid.com/user/register',
+            method: 'POST',
+            header: {
+              'Content-Type': 'application/x-www-form-urlencoded' },
 
-        dataType: "json",
-        data: {
-          username: this.username,
-          password: this.password,
-          repassword: this.repassword },
+            dataType: "json",
+            data: {
+              username: mThis.username,
+              password: mThis.password,
+              repassword: mThis.repassword },
 
-        success: function success(res) {
-          if (res.data.errorCode == -1) {
-            _this.showMessage(res.data.errorMsg);
-          } else {
-            uni.showModal({
-              title: '系统提示',
-              content: '注册成功，是否立即登录？',
-              success: function success(dialog) {
-                if (dialog.confirm) {
-                  _this.jumpUrl();
-                  // uni.setStorage({
-                  // 	key:'user_login',
-                  // 	data:JSON.stringify(res.data.data)
-                  // })
-                } else if (dialog.cancel) {
-                  _this.showMessage("那就下次登录吧！");
-                }
-              } });
+            success: function success(res) {
+              if (res.data.errorCode == -1) {
+                mThis.showMessage(res.data.errorMsg);
+              } else {
+                uni.showModal({
+                  title: '系统提示',
+                  content: '注册成功，是否立即登录？',
+                  success: function success(dialog) {
+                    if (dialog.confirm) {
+                      mThis.jumpUrl();
+                      // uni.setStorage({
+                      // 	key:'user_login',
+                      // 	data:JSON.stringify(res.data.data)
+                      // })
+                    } else if (dialog.cancel) {
+                      mThis.showMessage("那就下次登录吧！");
+                    }
+                  } });
 
-          }
-          console.log(res);
-        },
-        fail: function fail(error) {
-          _this.showMessage(error.errMsg);
+              }
+              console.log(res);
+            },
+            fail: function fail(error) {
+              mThis.showMessage(error.errMsg);
+            } });
+
         } });
 
     },
@@ -221,7 +226,11 @@ var _default =
         duration: 2000,
         icon: 'none' });
 
-    } } };exports.default = _default;
+    } },
+
+  onLoad: function onLoad() {
+    mThis = this;
+  } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

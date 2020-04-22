@@ -147,7 +147,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var _common = _interopRequireDefault(__webpack_require__(/*! ../../../common/common.js */ 37));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
@@ -163,34 +162,44 @@ var _common = _interopRequireDefault(__webpack_require__(/*! ../../../common/com
 //
 //
 //
-//
-var _default = { data: function data() {return { username: "", password: "" };}, methods: { jumpUrl: function jumpUrl() {uni.navigateTo({ url: "../register/register" });}, login: function login() {var _this = this;if (this.username.length == 0) {this.showMessage("请输入账号");
+var mThis;var _default = { data: function data() {return { username: '', password: '' };}, methods: { jumpUrl: function jumpUrl() {uni.navigateTo({ url: '../register/register' });}, login: function login() {
+      if (this.username.length == 0) {
+        this.showMessage('请输入账号');
         return;
       }
       if (this.password.length == 0) {
-        this.showMessage("请输入密码");
+        this.showMessage('请输入密码');
         return;
       }
-      uni.request({
-        method: 'POST',
-        data: {
-          username: this.username,
-          password: this.password },
+      uni.showLoading({
+        complete: function complete() {
+          uni.request({
+            method: 'POST',
+            data: {
+              username: mThis.username,
+              password: mThis.password },
 
-        header: {
-          'Content-Type': 'application/x-www-form-urlencoded' },
+            header: {
+              'Content-Type': 'application/x-www-form-urlencoded' },
 
-        dataType: "json",
-        url: 'https://www.wanandroid.com/user/login',
-        success: function success(res) {
-          console.log(res);
-          // this.$store.state.login=JSON.stringify(res.data.data)
-          uni.setStorageSync(_common.default.user_login, JSON.stringify(res.data.data));
-          _this.$store.state.login = JSON.stringify(res.data.data);
-          _this.onBackLastPage();
-        },
-        fail: function fail(error) {
-          console.error(error);
+            dataType: 'json',
+            url: 'https://www.wanandroid.com/user/login',
+            success: function success(res) {
+              console.log(res);
+              if (res.data.data != null) {
+                mThis.saveLoginInfo(res);
+                mThis.onBackLastPage();
+              } else {
+                mThis.showMessage(res.data.errorMsg);
+              }
+            },
+            fail: function fail(error) {
+              console.error(error);
+            },
+            complete: function complete() {
+              uni.hideLoading();
+            } });
+
         } });
 
     },
@@ -201,11 +210,19 @@ var _default = { data: function data() {return { username: "", password: "" };},
         duration: 2000 });
 
     },
+    saveLoginInfo: function saveLoginInfo(res) {
+      uni.setStorageSync(_common.default.user_login, JSON.stringify(res.data.data));
+      this.$store.state.login = JSON.stringify(res.data.data);
+    },
     onBackLastPage: function onBackLastPage() {
       uni.navigateBack({
         delta: 1 });
 
-    } } };exports.default = _default;
+    } },
+
+  onLoad: function onLoad() {
+    mThis = this;
+  } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
